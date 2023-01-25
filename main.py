@@ -1,3 +1,4 @@
+# Importing modules
 import tkinter as tk
 import cv2
 import os
@@ -6,6 +7,7 @@ import numpy as np
 from PIL import Image
 import pandas as pd
 
+# Creating a GUI window
 window = tk.Tk()
 window.title("Face_Recogniser")
 window.configure(background='white')
