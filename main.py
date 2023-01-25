@@ -59,7 +59,7 @@ def TakeImages():
 
     if is_number(Id) and name.isalpha():
         cam = cv2.VideoCapture(0)
-        harcascadePath = "E://NCU Courses//Sem 5th//AIML//UserFaceRecognition//data//haarcascade_frontalface_default.xml"
+        harcascadePath = "PATH_TO_FILE//haarcascade_frontalface_default.xml"
         detector = cv2.CascadeClassifier(harcascadePath)
         sampleNum = 0
         while True:
@@ -74,7 +74,7 @@ def TakeImages():
             for (x, y, w, h) in faces:
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
                 sampleNum = sampleNum + 1
-                cv2.imwrite("E://NCU Courses//Sem 5th//AIML//UserFaceRecognition//TrainingImage// " + name + "." + Id + '.' +
+                cv2.imwrite("PATH_TO_FILE//TrainingImage// " + name + "." + Id + '.' +
                             str(sampleNum) + ".jpg", gray[y:y + h, x:x + w])
                 cv2.imshow('frame', img)
 
@@ -86,7 +86,7 @@ def TakeImages():
         cv2.destroyAllWindows()
         res = "Images Saved for ID : " + Id + " Name : " + name
         row = [Id, name]
-        with open('E://NCU Courses//Sem 5th//AIML//UserFaceRecognition//UserDetails//UserDetails.csv', 'a+') as csvFile:
+        with open('PATH_TO_FILE//UserDetails.csv', 'a+') as csvFile:
             writer = csv.writer(csvFile)
             writer.writerow(row)
         csvFile.close()
@@ -106,11 +106,11 @@ def TrainImages():
     # Local Binary Pattern Histogram is an Face Recognizer
     # algorithm inside OpenCV module used for training the image dataset
     recognizer = cv2.face.LBPHFaceRecognizer_create()
-    harcascadePath = "E://NCU Courses//Sem 5th//AIML//UserFaceRecognition//data//haarcascade_frontalface_default.xml"
+    harcascadePath = "PATH_TO_FILE//haarcascade_frontalface_default.xml"
     detector = cv2.CascadeClassifier(harcascadePath)
     faces, Id = getImagesAndLabels("TrainingImage")
     recognizer.train(faces, np.array(Id))
-    recognizer.save("E://NCU Courses//Sem 5th//AIML//UserFaceRecognition//TrainingImageLabel//Trainer.yml")
+    recognizer.save("PATH_TO_FILE//TrainingImageLabel//Trainer.yml")
     res = "Image Trained"
     message.configure(text=res)
 
@@ -138,11 +138,11 @@ def getImagesAndLabels(path):
 def TrackImages():
     recognizer = cv2.face.LBPHFaceRecognizer_create()
     # Reading the trained model
-    recognizer.read("E://NCU Courses//Sem 5th//AIML//UserFaceRecognition//TrainingImageLabel//Trainer.yml")
-    harcascadePath = "E://NCU Courses//Sem 5th//AIML//UserFaceRecognition//data//haarcascade_frontalface_default.xml"
+    recognizer.read("PATH_TO_FILE//TrainingImageLabel//Trainer.yml")
+    harcascadePath = "PATH_TO_FILE//haarcascade_frontalface_default.xml"
     faceCascade = cv2.CascadeClassifier(harcascadePath)
     # getting the name from "userdetails.csv"
-    df = pd.read_csv("E://NCU Courses//Sem 5th//AIML//UserFaceRecognition//UserDetails//UserDetails.csv")
+    df = pd.read_csv("PATH_TO_FILE//UserDetails//UserDetails.csv")
     cam = cv2.VideoCapture(0)
     font = cv2.FONT_HERSHEY_SIMPLEX
     while True:
@@ -160,7 +160,7 @@ def TrackImages():
                 tt = str(Id)
             if conf > 75:
                 noOfFile = len(os.listdir("ImagesUnknown")) + 1
-                cv2.imwrite("E://NCU Courses//Sem 5th//AIML//UserFaceRecognition//ImagesUnknown//Image" +
+                cv2.imwrite("PATH_TO_FILE//ImagesUnknown//Image" +
                             str(noOfFile) + ".jpg", img[y:y + h, x:x + w])
             cv2.putText(img, str(tt), (x, y + h), font, 1, (255, 255, 255), 2)
         cv2.imshow('im', img)
